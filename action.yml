@@ -16,8 +16,7 @@ inputs:
     default: 'none'
 runs:
   using: 'docker'
-  image: 'docker://texlive/texlive:latest'
-  entrypoint: res/pandoc-generate-styles
+  image: 'Dockerfile'
   args:
     - '-e pdf'
     - '-f ${{ inputs.markdown }}'
