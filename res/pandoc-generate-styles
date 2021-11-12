@@ -54,7 +54,7 @@ else
 
   pandoc --list-highlight-styles | while read -r style ; do
     echo "Generating $ext with $style theme..."
-    pandoc default.yaml -o styles/$style.$ext -t latex --template=eisvogel $file.md --highlight-style $style
+    pandoc default.yaml -o styles/$style.$ext -t latex --template=eisvogel $file --highlight-style $style
   done
 fi
 echo "Done"

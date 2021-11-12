@@ -4,15 +4,15 @@ author: 'Francesco Monti'
 inputs:
   markdown:
     description: 'Source markdown file'
-    required: false
+    required: true
     default: 'rapport.md'
   pdf:
     description: 'Output pdf file name'
-    required: false
+    required: true
     default: 'Rapport'
   template:
     description: 'Choice of template(s) for listings and/or code highlights'
-    required: true
+    required: false
     default: 'none'
 runs:
   using: 'docker'
