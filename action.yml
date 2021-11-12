@@ -1,0 +1,28 @@
+name: 'Pandoc generator'
+description: 'Generates a PDF from Markdown'
+author: 'Francesco Monti'
+inputs:
+  markdown:
+    description: 'Source markdown file'
+    required: false
+    default: 'rapport.md'
+  pdf:
+    description: 'Output pdf file name'
+    required: false
+    default: 'Rapport'
+  template:
+    description: 'Choice of template(s) for listings and/or code highlights'
+    required: true
+    default: 'none'
+runs:
+  using: 'docker'
+  image: 'texlive/texlive:latest'
+  entrypoint: res/pandoc-generate-styles
+  args:
+    - '-e pdf'
+    - '-f ${{ inputs.markdown }}'
+    - '-o ${{ inputs.pdf }}'
+    - '-t ${{ inputs.template }}'
+branding:
+  icon: 'align-left'
+  color: 'blue'

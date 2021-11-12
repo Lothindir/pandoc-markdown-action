@@ -1,0 +1,60 @@
+#!/bin/bash
+ext="pdf"
+file="rapport.md"
+
+while getopts e:t:f:o: flag
+do
+  case "$flag" in
+    e)    ext=$OPTARG;;
+    f)    file=$OPTARG;;
+    o)    output=$OPTARG;;
+    t)    templates=$OPTARG;;
+    *)    echo "Usage: $0 [-e extension] [-t template1,template2,...] [-f filename] [-o output filename]"
+          exit 1;;
+  esac
+done
+
+if [ -n "$templates" ]
+then
+  IFS=, read -ra templatesArray <<< "$templates"
+
+  for template in "${templatesArray[@]}"
+  do
+    if [ -z "$output" ]
+    then
+      tmpOutput=$template
+    elif [ ${#templatesArray[@]} -gt 1 ]
+    then
+      tmpOutput=$output.$template
+    else
+      tmpOutput=$output
+    fi
+
+    if [ "$template" = "listings" ]
+    then
+      echo $template
+      echo "Generating $ext with listings [$tmpOutput.$ext]..."
+      pandoc default.yaml -o $tmpOutput.$ext -t latex $file --template=eisvogel --listings -B setup-listings.tex
+    elif [ "$template" = "none" ]
+    then
+      echo "Generating $ext [$tmpOutput.$ext]..."
+      pandoc default.yaml -o $tmpOutput.$ext -t latex $file --template=eisvogel
+    else
+      echo "Generating $ext with $template theme [$tmpOutput.$ext]..."
+      pandoc default.yaml -o $tmpOutput.$ext -t latex --template=eisvogel $file --highlight-style $template -B setup-highlights.tex
+    fi
+  done
+else
+  rm -rf styles
+  mkdir styles
+  echo "Generating $ext for all available styles in styles folder"
+
+  echo "Generating $ext with listings..."
+  pandoc -o styles/listings.$ext -t latex $file.md --template=eisvogel --listings -B setup.tex
+
+  pandoc --list-highlight-styles | while read -r style ; do
+    echo "Generating $ext with $style theme..."
+    pandoc default.yaml -o styles/$style.$ext -t latex --template=eisvogel $file.md --highlight-style $style
+  done
+fi
+echo "Done"

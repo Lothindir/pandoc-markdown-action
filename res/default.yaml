@@ -1,0 +1,11 @@
+---
+titlepage: true
+titlepage-background: background5.pdf
+logo: heig-logo.png
+toc: true
+header-center: '\headerlogo'
+header-includes: |
+  ```{=latex}
+  \newcommand{\headerlogo}{\raisebox{0pt}[0pt]{\includegraphics[width=1cm]{heig-logo.png}}}
+  ```
+...
