@@ -16,7 +16,7 @@ inputs:
     default: 'none'
 runs:
   using: 'docker'
-  image: 'texlive/texlive:latest'
+  image: 'docker://texlive/texlive:latest'
   entrypoint: res/pandoc-generate-styles
   args:
     - '-e pdf'
