@@ -1,6 +1,10 @@
 FROM ubuntu:latest
 
-RUN apt-get update && apt-get install -y texlive-latex-extra
+ENV TZ="Europe/Bern"
+
+RUN apt-get update 
+
+RUN apt-get install -y texlive-latex-extra
 
 RUN tlmgr install adjustbox babel-german background bidi collectbox csquotes everypage filehook footmisc footnotebackref framed fvextra letltxmacro ly1 mdframed mweights needspace pagecolor sourcecodepro sourcesanspro titling ucharcat ulem unicode-math upquote xecjk xurl zref
 
